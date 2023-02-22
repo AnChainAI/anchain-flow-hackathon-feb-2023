@@ -81,7 +81,7 @@ pub contract SoulboundClaimer {
     }
 
     init(
-      receiverCap: Capability<&{NonFungibleToken.CollectionPublic}>,
+      receiverAddress: Address,
       senderAddress: Address,
       ipfsCID: String,
       fileExt: String,
@@ -90,9 +90,9 @@ pub contract SoulboundClaimer {
       // There is no need to validate that the recipient capability is valid at the time
       // of creating the claim. The more important thing is that we're ready to fulfill 
       // the intended recipient's claim once they do have a valid capability available.
-      self.receiver = receiverCap
+      self.receiver = getAccount(receiverAddress).getCapability<&{NonFungibleToken.CollectionPublic}>(AnChainSoulboundNFT.CollectionPublicPath)
       self.details = ClaimDetails(
-        receiverAddress: receiverCap.address,
+        receiverAddress: receiverAddress,
         senderAddress: senderAddress,
         ipfsCID: ipfsCID,
         fileExt: fileExt,
@@ -120,7 +120,7 @@ pub contract SoulboundClaimer {
   pub resource interface ClaimerAdmin {
     pub fun removeClaim(id: UInt64)
     pub fun createClaim(
-      receiverCap: Capability<&{NonFungibleToken.CollectionPublic}>,
+      receiverAddress: Address,
       senderAddress: Address,
       ipfsCID: String,
       fileExt: String,
@@ -132,14 +132,14 @@ pub contract SoulboundClaimer {
     access(self) let claims: @{UInt64:Claim}
 
     pub fun createClaim(
-      receiverCap: Capability<&{NonFungibleToken.CollectionPublic}>,
+      receiverAddress: Address,
       senderAddress: Address,
       ipfsCID: String,
       fileExt: String,
       metadata: {String:String}
     ) {
       let claim <- create Claim(
-        receiverCap: receiverCap,
+        receiverAddress: receiverAddress,
         senderAddress: senderAddress,
         ipfsCID: ipfsCID,
         fileExt: fileExt,
