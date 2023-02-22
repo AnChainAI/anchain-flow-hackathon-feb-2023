@@ -8,8 +8,8 @@ pub contract SoulboundClaimer {
   pub event ClaimAvailable(owner: Address?, claimerResourceID: UInt64, claimResourceID: UInt64, details: ClaimDetails)
   pub event ClaimCompleted(owner: Address?, claimerResourceID: UInt64, claimResourceID: UInt64,  details: ClaimDetails)
 
-  pub let NFTClaimerStoragePath: StoragePath
-  pub let NFTClaimerPublicPath: PublicPath
+  pub let SoulboundClaimerStoragePath: StoragePath
+  pub let SoulboundClaimerPublicPath: PublicPath
 
   pub struct ClaimDetails {
     pub let receiverAddress: Address
@@ -44,7 +44,7 @@ pub contract SoulboundClaimer {
     pub fun claim()
   }
 
-  pub resource Claim : ClaimPublic {
+  pub resource Claim: ClaimPublic {
     access(self) let receiver: Capability<&{NonFungibleToken.CollectionPublic}>
     access(self) let details: ClaimDetails
 
@@ -81,18 +81,18 @@ pub contract SoulboundClaimer {
     }
 
     init(
-      receiver: Capability<&{NonFungibleToken.CollectionPublic}>,
+      receiverAddress: Address,
       senderAddress: Address,
       ipfsCID: String,
       fileExt: String,
-      metadata: {String:AnyStruct}
+      metadata: {String:String}
     ) {
       // There is no need to validate that the recipient capability is valid at the time
       // of creating the claim. The more important thing is that we're ready to fulfill 
       // the intended recipient's claim once they do have a valid capability available.
-      self.receiver = receiver
+      self.receiver = getAccount(receiverAddress).getCapability<&{NonFungibleToken.CollectionPublic}>(AnChainSoulboundNFT.CollectionPublicPath)
       self.details = ClaimDetails(
-        receiverAddress: receiver.address,
+        receiverAddress: receiverAddress,
         senderAddress: senderAddress,
         ipfsCID: ipfsCID,
         fileExt: fileExt,
@@ -111,41 +111,39 @@ pub contract SoulboundClaimer {
   }
 
   pub resource interface ClaimerPublic {
-    // Read functions
-    pub fun claimByNftType(address: Address, nftType: Type)
     pub fun borrowClaim(id: UInt64): &Claim{ClaimPublic}?
     pub fun claimByAddress(address: Address)
     pub fun claimById(id: UInt64)
     pub fun getClaimIDs(): [UInt64]
+  }
 
-    // Write functions
+  pub resource interface ClaimerAdmin {
     pub fun removeClaim(id: UInt64)
     pub fun createClaim(
-      receiver: Capability<&{NonFungibleToken.CollectionPublic}>,
+      receiverAddress: Address,
       senderAddress: Address,
       ipfsCID: String,
       fileExt: String,
-      metadata: {String:AnyStruct}
+      metadata: {String:String}
     )
   }
 
-  pub resource Claimer: ClaimerPublic {
+  pub resource Claimer: ClaimerPublic, ClaimerAdmin {
     access(self) let claims: @{UInt64:Claim}
 
-    // ADMIN FUNCTIONS
-
     pub fun createClaim(
-      receiver: Capability<&{NonFungibleToken.CollectionPublic}>,
-      sender: Address,
+      receiverAddress: Address,
+      senderAddress: Address,
       ipfsCID: String,
       fileExt: String,
-      metadata: {String:AnyStruct}
+      metadata: {String:String}
     ) {
       let claim <- create Claim(
-        provider: provider,
-        receiver: receiver,
-        nftIDs: nftIDs,
-        nftType: nftType,
+        receiverAddress: receiverAddress,
+        senderAddress: senderAddress,
+        ipfsCID: ipfsCID,
+        fileExt: fileExt,
+        metadata: metadata
       )
 
       emit ClaimAvailable(
@@ -173,14 +171,19 @@ pub contract SoulboundClaimer {
       destroy <- claim
     }
 
-    // PUBLIC FUNCTIONS
+    pub fun borrowClaim(id: UInt64): &Claim{ClaimPublic}? {
+      return &self.claims[id] as &Claim{ClaimPublic}?
+    }        
 
     pub fun claimByAddress(address: Address) {
-      self.claim(fun (details: ClaimDetails): Bool {
-        return !details.isFulfilled 
-          && details.receiverAddress == address
-      })
-    }    
+      let ids = self.claims.keys
+      for id in ids {
+        let details = self.borrowClaim(id: id)!.getDetails()
+        if !details.isFulfilled && details.receiverAddress == address {
+          self.claimById(id: id)
+        }      
+      }
+    }
 
     pub fun claimById(id: UInt64) {
       let claim <- self.claims.remove(key: id) 
@@ -195,20 +198,6 @@ pub contract SoulboundClaimer {
       return self.claims.keys
     }
 
-    // HELPERS
-
-    priv fun claim(_ isClaimable: ((ClaimDetails): Bool)) {
-      let ids = self.claims.keys
-      for id in ids {
-        let claim = self.borrowClaim(id: id)!
-        if isClaimable(claim.getDetails()) {
-          self.claimById(id: id)
-        }      
-      }
-    }
-
-    // CONSTRUCTOR
-
     init() {
       self.claims <- {}
 
@@ -217,8 +206,6 @@ pub contract SoulboundClaimer {
         claimerResourceID: self.uuid
       )
     }
-
-    // DESTRUCTOR
 
     destroy() {
       destroy <- self.claims
@@ -231,11 +218,18 @@ pub contract SoulboundClaimer {
   }
 
   init() {
-    self.NFTClaimerStoragePath = /storage/NFTClaimer
-    self.NFTClaimerPublicPath = /public/NFTClaimer
+    self.SoulboundClaimerStoragePath = /storage/SoulboundClaimer
+    self.SoulboundClaimerPublicPath = /public/SoulboundClaimer
 
+    // Save a claimer resource to the deployer account
     let claimer <- create Claimer()
-    self.account.save(<-claimer, to: self.NFTClaimerStoragePath)
+    self.account.save(<-claimer, to: self.SoulboundClaimerStoragePath)
+
+    // Create a public capability for the claimer
+    self.account.link<&SoulboundClaimer.Claimer{SoulboundClaimer.ClaimerPublic}>(
+      self.SoulboundClaimerPublicPath, 
+      target: self.SoulboundClaimerStoragePath
+    )
 
     emit ContractInitialized()
   }
