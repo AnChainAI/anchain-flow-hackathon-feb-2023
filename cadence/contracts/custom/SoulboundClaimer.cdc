@@ -12,6 +12,7 @@ pub contract SoulboundClaimer {
   pub let SoulboundClaimerPublicPath: PublicPath
 
   pub struct ClaimDetails {
+    pub let claimResourceID: UInt64
     pub let receiverAddress: Address
     pub let senderAddress: Address
     pub var isFulfilled: Bool
@@ -24,12 +25,14 @@ pub contract SoulboundClaimer {
     }
 
     init(
+      claimResourceID: UInt64,
       receiverAddress: Address,
       senderAddress: Address,
       ipfsCID: String,
       fileExt: String,
       metadata: {String:String}
     ) {
+      self.claimResourceID = claimResourceID
       self.receiverAddress = receiverAddress
       self.senderAddress = senderAddress
       self.isFulfilled = false
@@ -92,6 +95,7 @@ pub contract SoulboundClaimer {
       // the intended recipient's claim once they do have a valid capability available.
       self.receiver = getAccount(receiverAddress).getCapability<&{NonFungibleToken.CollectionPublic}>(AnChainSoulboundNFT.CollectionPublicPath)
       self.details = ClaimDetails(
+        claimResourceID: self.uuid,
         receiverAddress: receiverAddress,
         senderAddress: senderAddress,
         ipfsCID: ipfsCID,
