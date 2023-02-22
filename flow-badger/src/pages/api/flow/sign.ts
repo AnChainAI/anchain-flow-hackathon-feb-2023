@@ -56,30 +56,31 @@ export const hashMsg = (msg: string) => {
 // TODO: refactor + add comments + test
 export default async function (req: NextApiRequest, res: NextApiResponse) {
   try {
+    //
     const privKey = process.env['ADMIN_PRIVATE_KEY']
     if (privKey == null) {
       return res.status(500).json({ error: 'Private key is not configured' })
     }
 
+    //
     const msg = req.body.message
-
     if (msg == null) {
       return res.status(400).json({
         error: 'Message is required'
       })
     }
 
-    //
+    // Decode the input transaction
     const decodedTxCode = decodeTxCode(msg)
 
-    //
-    const createBadgeCode = normalizeTxCode(CreateClaim.template)
-
-    //
-    if (decodedTxCode !== createBadgeCode) {
-      return res.status(400).json({
-        data: 'Suspicious transaction detected - rejecting request'
-      })
+    // Check if the decoded transaction code is a whitelisted transaction
+    const whitelistedTransactions = [normalizeTxCode(CreateClaim.template)]
+    for (const whitelistedTransaction of whitelistedTransactions) {
+      if (decodedTxCode !== whitelistedTransaction) {
+        return res.status(400).json({
+          data: 'Suspicious transaction detected - rejecting request'
+        })
+      }
     }
 
     //
