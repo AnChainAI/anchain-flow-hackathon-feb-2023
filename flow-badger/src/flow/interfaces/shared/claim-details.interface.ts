@@ -1,4 +1,5 @@
 export interface ClaimDetails {
+  readonly claimResourceID: string
   readonly receiverAddress: string
   readonly senderAddress: string
   readonly isFulfilled: boolean
