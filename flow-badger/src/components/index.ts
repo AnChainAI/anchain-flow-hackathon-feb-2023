@@ -1,2 +1,5 @@
+export * from './dropzone'
 export * from './buttons'
 export * from './common'
+export * from './labels'
+export * from './tiles'

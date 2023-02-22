@@ -24,7 +24,8 @@
     "react-hook-form": "7.41.0",
     "react-dropzone": "14.2.3",
     "formidable": "2.1.1",
-    "ipfs-http-client": "59.0.0"
+    "ipfs-http-client": "59.0.0",
+    "@hookform/error-message": "2.0.1"
   },
   "devDependencies": {
     "@types/node": "18.14.0",

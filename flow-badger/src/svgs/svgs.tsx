@@ -35,3 +35,31 @@ export const ErrorIcon = (props: SvgProps) => {
     </svg>
   )
 }
+
+export const WarningIcon = (props: SvgProps) => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      height={props.height ? props.height : '24px'}
+      viewBox={props?.viewBox ? props.viewBox : '0 0 24 24'}
+      width={props.width ? props.width : '24px'}
+      fill={props.fill ? props.fill : '#dc2626'}
+    >
+      <path d="M1 21 12 2l11 19Zm3.45-2h15.1L12 6ZM12 18q.425 0 .713-.288Q13 17.425 13 17t-.287-.712Q12.425 16 12 16t-.712.288Q11 16.575 11 17t.288.712Q11.575 18 12 18Zm-1-3h2v-5h-2Zm1-2.5Z" />
+    </svg>
+  )
+}
+
+export const DeleteIcon = (props: SvgProps) => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      height={props.height ? props.height : '24px'}
+      viewBox={props?.viewBox ? props.viewBox : '0 0 24 24'}
+      width={props.width ? props.width : '24px'}
+      fill={props.fill ? props.fill : 'rgba(0, 0, 0, 0.6)'}
+    >
+      <path d="m9.4 16.5 2.6-2.6 2.6 2.6 1.4-1.4-2.6-2.6L16 9.9l-1.4-1.4-2.6 2.6-2.6-2.6L8 9.9l2.6 2.6L8 15.1ZM7 21q-.825 0-1.412-.587Q5 19.825 5 19V6H4V4h5V3h6v1h5v2h-1v13q0 .825-.587 1.413Q17.825 21 17 21ZM17 6H7v13h10ZM7 6v13Z" />
+    </svg>
+  )
+}

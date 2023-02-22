@@ -11,7 +11,17 @@ module.exports = {
         kanit: 'Kanit',
         raj: 'Rajdhani'
       },
-      colors: {}
+      colors: {
+        green: {
+          500: '#62fcaf'
+        },
+        purple: {
+          200: '#9300fe'
+        }
+      },
+      backgroundImage: {
+        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))'
+      },
     }
   },
   plugins: []
