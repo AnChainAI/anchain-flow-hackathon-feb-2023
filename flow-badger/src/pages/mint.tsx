@@ -25,10 +25,7 @@ const MintPage: NextPage = () => {
   useEffect(() => {
     const address = flowUser?.addr
     if (address != null) {
-      getClaimableBadges({
-        adminAddress: flowConfig['0xAnChainSoulboundNFT'],
-        address
-      })
+      getClaimableBadges({ address })
     }
   }, [flowUser])
 

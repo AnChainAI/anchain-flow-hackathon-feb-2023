@@ -22,7 +22,6 @@ const EditorPage: NextPage = () => {
   ])
 
   const [file, setFile] = useState<FileType>()
-  const { flowUser } = useGetFlowUser()
   const [addr, setAddr] = useState('')
   const [name, setName] = useState('')
 
@@ -56,45 +55,40 @@ const EditorPage: NextPage = () => {
     setMetadata(tempList)
   }
 
-  const issueBadge = async () => {
-    // TODO: if the user is not logged in, log them in first before issuing the badge
-    // const address = flowUser?.addr
-    // if (address == null) {
-    //   loginToWallet((user) => {})
-    // }
-
-    const address = flowUser?.addr
-    if (address == null) {
-      console.error('user must be logged in before creating a badge')
-      return
-    }
-
-    try {
-      const result = await uploadToIPFS(file)
-      const path = result?.data?.path
-      if (path != null) {
-        // TODO: may want to add error handling here
-        const adminAuthz = await getAdminAuthz()
-        await createBadge(
-          {
-            receiverAddress: addr,
-            senderAddress: address,
-            ipfsCID: path,
-            fileExt: '',
-            metadata: { key: 'Thanh', value: 'Ha' }
-          },
-          {
-            authorizations: [adminAuthz],
-            payer: fcl.authz,
-            proposer: fcl.authz
-          }
-        )
-      } else {
-        console.error('Error uploading to IPFS')
+  const issueBadge = () => {
+    loginToWallet(async (user) => {
+      const address = user?.addr
+      if (address == null) {
+        console.error('error logging in')
+        return
       }
-    } catch (err) {
-      console.error(err)
-    }
+
+      try {
+        const result = await uploadToIPFS(file)
+        const path = result?.data?.path
+        if (path != null) {
+          const adminAuthz = await getAdminAuthz()
+          await createBadge(
+            {
+              receiverAddress: addr,
+              senderAddress: address,
+              ipfsCID: path,
+              fileExt: '',
+              metadata: { key: 'Thanh', value: 'Ha' }
+            },
+            {
+              authorizations: [adminAuthz],
+              payer: fcl.authz,
+              proposer: fcl.authz
+            }
+          )
+        } else {
+          console.error('Error uploading to IPFS')
+        }
+      } catch (err) {
+        console.error(err)
+      }
+    })
   }
 
   return (

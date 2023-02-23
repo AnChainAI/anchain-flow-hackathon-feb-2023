@@ -116,8 +116,7 @@ pub contract SoulboundClaimer {
 
   pub resource interface ClaimerPublic {
     pub fun borrowClaim(id: UInt64): &Claim{ClaimPublic}?
-    pub fun claimByAddress(address: Address)
-    pub fun claimById(id: UInt64)
+    pub fun cleanUpClaim(id: UInt64)
     pub fun getClaimIDs(): [UInt64]
   }
 
@@ -175,27 +174,17 @@ pub contract SoulboundClaimer {
       destroy <- claim
     }
 
-    pub fun borrowClaim(id: UInt64): &Claim{ClaimPublic}? {
-      return &self.claims[id] as &Claim{ClaimPublic}?
-    }        
-
-    pub fun claimByAddress(address: Address) {
-      let ids = self.claims.keys
-      for id in ids {
-        let details = self.borrowClaim(id: id)!.getDetails()
-        if !details.isFulfilled && details.receiverAddress == address {
-          self.claimById(id: id)
-        }      
+    pub fun cleanUpClaim(id: UInt64) {
+      if let claim = self.borrowClaim(id: id) {
+        let details = claim.getDetails()
+        if details.isFulfilled {
+          self.removeClaim(id: id)
+        }
       }
     }
 
-    pub fun claimById(id: UInt64) {
-      let claim <- self.claims.remove(key: id) 
-        ?? panic("No claim with ID ".concat(id.toString()).concat(" exists"))
-      
-      claim.claim()
-
-      destroy <- claim
+    pub fun borrowClaim(id: UInt64): &Claim{ClaimPublic}? {
+      return &self.claims[id] as &Claim{ClaimPublic}?
     }
 
     pub fun getClaimIDs(): [UInt64] {

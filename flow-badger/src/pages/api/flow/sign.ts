@@ -1,8 +1,14 @@
 import { NextApiRequest, NextApiResponse } from 'next'
+import { AdminSignature, CreateClaim } from 'flow'
+import { decode, NestedUint8Array } from 'rlp'
 import { ec as EC } from 'elliptic'
-import { CreateClaim } from 'flow'
-import { decode } from 'rlp'
 import { SHA3 } from 'sha3'
+
+class SigningError extends Error {
+  constructor(msg: string) {
+    super(msg)
+  }
+}
 
 function normalizeTxCode(code: string) {
   return code.replace(/\s/g, '')
@@ -12,7 +18,7 @@ function safeDecode(message: string) {
   try {
     return decode(Buffer.from(message.slice(64), 'hex'))
   } catch (err) {
-    throw new Error('Could not decode message')
+    throw new SigningError(String(err))
   }
 }
 
@@ -20,13 +26,13 @@ function decodeTxCode(message: string, maxDepth = 10) {
   let [cursor, depth] = [safeDecode(message), 0]
   while (depth < maxDepth && Array.isArray(cursor)) {
     if (cursor.length <= 0) {
-      throw new Error('Invalid message')
+      throw new SigningError('Invalid message')
     }
     cursor = cursor[0]
     depth += 1
   }
   if (depth >= maxDepth) {
-    throw new Error('Could not extract transaction code')
+    throw new SigningError('Could not extract transaction code')
   }
   return normalizeTxCode(String(cursor))
 }
@@ -47,21 +53,18 @@ export const hashMsg = (msg: string) => {
   return sha.digest()
 }
 
-// TODO: refactor + add comments + test
 export default async function (req: NextApiRequest, res: NextApiResponse) {
   try {
     // Get private key from process env
     const privKey = process.env['ADMIN_PRIVATE_KEY']
     if (privKey == null) {
-      return res.status(500).json({ error: 'Private key is not configured' })
+      throw new Error('Private key is not configured')
     }
 
     // Get transaction message from request body
     const msg: string = JSON.parse(req.body)['message']
     if (msg == null) {
-      return res.status(400).json({
-        error: 'Message is required'
-      })
+      throw new SigningError('Message is required')
     }
 
     // Decode the input transaction
@@ -71,17 +74,20 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
     const whitelistedTransactions = [normalizeTxCode(CreateClaim.template)]
     for (const whitelistedTransaction of whitelistedTransactions) {
       if (decodedTxCode !== whitelistedTransaction) {
-        return res.status(400).json({
-          data: 'Suspicious transaction detected - rejecting request'
-        })
+        throw new SigningError(
+          'Suspicious transaction detected - rejecting request'
+        )
       }
     }
 
     // Return the signed message
-    return res.status(200).json({
-      data: signWithKey(privKey, msg)
-    })
+    const sig: AdminSignature = { data: signWithKey(privKey, msg) }
+    return res.status(200).json(sig)
   } catch (err) {
-    return res.status(500).json({ error: String(err) })
+    if (err instanceof SigningError) {
+      return res.status(400).json({ error: String(err) })
+    } else {
+      return res.status(500).json({ error: String(err) })
+    }
   }
 }

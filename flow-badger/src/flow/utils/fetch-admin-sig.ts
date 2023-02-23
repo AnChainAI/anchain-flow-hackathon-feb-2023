@@ -1,14 +1,18 @@
 import { flowConfig } from '../flow.config'
+import { AdminSignature } from 'flow'
 import * as fcl from '@onflow/fcl'
 
-async function fetchAdminSig(msg: string) {
+async function fetchAdminSig(message: string) {
   const result = await fetch('/api/flow/sign', {
     method: 'POST',
-    body: JSON.stringify({
-      message: msg
-    })
+    body: JSON.stringify({ message })
   })
-  return (await result.json()) as { data: string }
+
+  if (result.status !== 200) {
+    throw new Error(await result.text())
+  }
+
+  return (await result.json()) as AdminSignature
 }
 
 export async function getAdminAuthz(keyIndex = 0) {
@@ -21,7 +25,6 @@ export async function getAdminAuthz(keyIndex = 0) {
       keyId: Number(keyIndex),
       signingFunction: async (signable: { message: string }) => {
         const { data } = await fetchAdminSig(signable.message)
-        console.log(data)
         return {
           addr: fcl.withPrefix(addr),
           keyId: Number(keyIndex),

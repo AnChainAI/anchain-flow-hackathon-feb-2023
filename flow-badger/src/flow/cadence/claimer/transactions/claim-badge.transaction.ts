@@ -1,6 +1,7 @@
 import { Transaction } from 'flow/cadence/utils/transactions/base.transaction'
 import { wrapAddress } from 'flow/wrappers/address.wrapper'
 import { wrapUInt64 } from 'flow/wrappers/uint64.wrapper'
+import { flowConfig } from 'flow/flow.config'
 
 const CODE = `
 import AnChainSoulboundNFT from 0xAnChainSoulboundNFT
@@ -38,7 +39,6 @@ transaction(adminAddress: Address, claimResourceID: UInt64) {
 `
 
 export interface ClaimBadgeArgs {
-  readonly adminAddress: string
   readonly claimResourceID: string
 }
 
@@ -49,6 +49,9 @@ export const ClaimBadge =
     }
 
     protected resolveArgs(args: ClaimBadgeArgs): unknown[] {
-      return [wrapAddress(args.adminAddress), wrapUInt64(args.claimResourceID)]
+      return [
+        wrapAddress(flowConfig['0xAnChainSoulboundNFT']),
+        wrapUInt64(args.claimResourceID)
+      ]
     }
   })()

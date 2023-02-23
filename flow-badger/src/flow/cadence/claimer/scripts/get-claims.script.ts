@@ -2,6 +2,7 @@ import { ScriptStatus } from '../../../interfaces/cadence/script-status.interfac
 import { ClaimDetails } from 'flow/interfaces/shared/claim-details.interface'
 import { Script } from 'flow/cadence/utils/scripts/base.script'
 import { wrapAddress } from '../../../wrappers/address.wrapper'
+import { flowConfig } from 'flow/flow.config'
 
 const CODE = `
 import SoulboundClaimer from 0xSoulboundClaimer
@@ -49,7 +50,6 @@ pub fun main(address: Address, adminAddress: Address): ScriptStatus {
 
 export interface GetClaimsArgs {
   readonly address: string
-  readonly adminAddress: string
 }
 
 export const GetClaims = new (class GetClaimsScript extends Script<
@@ -61,6 +61,9 @@ export const GetClaims = new (class GetClaimsScript extends Script<
   }
 
   protected resolveArgs(args: GetClaimsArgs): unknown[] {
-    return [wrapAddress(args.address), wrapAddress(args.adminAddress)]
+    return [
+      wrapAddress(args.address),
+      wrapAddress(flowConfig['0xAnChainSoulboundNFT'])
+    ]
   }
 })()
