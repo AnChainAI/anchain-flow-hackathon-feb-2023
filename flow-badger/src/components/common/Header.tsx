@@ -1,6 +1,7 @@
 import { useRouter } from 'next/dist/client/router'
 import { DefaultButton } from 'components'
 import { useGetFlowUser } from 'hooks'
+import { logoutOfWallet } from 'flow'
 import * as fcl from '@onflow/fcl'
 import React from 'react'
 
@@ -15,7 +16,10 @@ export const Header = () => {
   const renderAuth = () => {
     if (flowUser?.addr) {
       return (
-        <div className="hidden items-center border-2 border-green-500 bg-gradient-to-r from-green-500 to-green-700 bg-clip-text p-2 font-raj text-xl font-bold text-transparent sm:flex">
+        <div
+          className="hidden items-center border-2 border-green-500 bg-gradient-to-r from-green-500 to-green-700 bg-clip-text p-2 font-raj text-xl font-bold text-transparent hover:cursor-pointer sm:flex"
+          onClick={logoutOfWallet}
+        >
           {cleanUpAddr(flowUser.addr)}
         </div>
       )

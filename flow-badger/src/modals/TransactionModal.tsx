@@ -7,7 +7,7 @@ import React from 'react'
 interface TxModalProps {
   loading: boolean
   success: TransactionStatus | null
-  error: Error | null
+  error: Error | null | boolean
   open: boolean
   onClose: () => void
 }
@@ -60,9 +60,11 @@ export const TransactionModal: React.FC<TxModalProps> = ({
         </div>
         <div className="mt-4 flex h-full flex-col items-center gap-12">
           <div className="bg-gradient-to-r from-green-500 to-green-700 bg-clip-text font-raj text-3xl font-bold text-transparent">
-            {error?.message}
+            {error instanceof Error
+              ? error?.message
+              : 'Error with upload to IPFS'}
           </div>
-          <div className="flex items-end mt-4">
+          <div className="mt-4 flex items-end">
             <DefaultButton text="Close" onClick={onClose} />
           </div>
         </div>
