@@ -1,6 +1,5 @@
 import SoulboundClaimer from "../../contracts/custom/SoulboundClaimer.cdc"
 
-// flow scripts execute ./cadence/scripts/claimer/find-all.cdc 0xe84569d5c98aa48f --network=testnet
 pub struct ScriptStatus {
   pub let statusCode: UInt64
   pub let message: String
@@ -12,7 +11,7 @@ pub struct ScriptStatus {
   }
 }
 
-pub fun main(adminAddress: Address): ScriptStatus {
+pub fun main(address: Address, adminAddress: Address): ScriptStatus {
   let claimerPublicCap = getAccount(adminAddress)
     .getCapability(SoulboundClaimer.SoulboundClaimerPublicPath)
     .borrow<&{SoulboundClaimer.ClaimerPublic}>()
@@ -28,7 +27,10 @@ pub fun main(adminAddress: Address): ScriptStatus {
   let claims: [SoulboundClaimer.ClaimDetails] = []
   let claimerPublic = claimerPublicCap!
   for id in claimerPublic.getClaimIDs() {
-    claims.append(claimerPublic.borrowClaim(id: id)!.getDetails())
+    let details = claimerPublic.borrowClaim(id: id)!.getDetails()
+    if details.receiverAddress == address {
+      claims.append(details)
+    }
   }
 
   return ScriptStatus(
