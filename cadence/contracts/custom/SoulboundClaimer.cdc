@@ -15,7 +15,7 @@ pub contract SoulboundClaimer {
     pub let claimResourceID: UInt64
     pub let receiverAddress: Address
     pub let senderAddress: Address
-    pub let createdAt: UFix64
+    pub let issuedAt: UFix64
     pub var isFulfilled: Bool
     pub let ipfsCID: String
     pub let fileExt: String
@@ -29,7 +29,7 @@ pub contract SoulboundClaimer {
       claimResourceID: UInt64,
       receiverAddress: Address,
       senderAddress: Address,
-      createdAt: UFix64,
+      issuedAt: UFix64,
       ipfsCID: String,
       fileExt: String,
       metadata: {String:String}
@@ -37,7 +37,7 @@ pub contract SoulboundClaimer {
       self.claimResourceID = claimResourceID
       self.receiverAddress = receiverAddress
       self.senderAddress = senderAddress
-      self.createdAt = createdAt
+      self.issuedAt = issuedAt
       self.isFulfilled = false
       self.ipfsCID = ipfsCID
       self.fileExt = fileExt
@@ -101,7 +101,7 @@ pub contract SoulboundClaimer {
         claimResourceID: self.uuid,
         receiverAddress: receiverAddress,
         senderAddress: senderAddress,
-        createdAt: getCurrentBlock().timestamp,
+        issuedAt: getCurrentBlock().timestamp,
         ipfsCID: ipfsCID,
         fileExt: fileExt,
         metadata: metadata
