@@ -24,14 +24,16 @@ const MintPage: NextPage = () => {
     runTransaction: claimBadge,
     loading: claimBadgeLoading,
     error: claimBadgeError,
-    data: claimBadgeData
+    data: claimBadgeData,
+    resetTransferState: resetClaimBadgeState
   } = useClaimBadge()
 
   const {
     runTransaction: cleanUpClaim,
     loading: cleanUpClaimLoading,
     error: cleanUpClaimError,
-    data: cleanUpClaimData
+    data: cleanUpClaimData,
+    resetTransferState: resetCleanUpState
   } = useCleanUpClaim()
 
   const { flowUser } = useGetFlowUser()
@@ -56,16 +58,17 @@ const MintPage: NextPage = () => {
         success={claimBadgeData || cleanUpClaimData}
         open={displayTxModal}
         error={claimBadgeError || cleanUpClaimError}
-        onClose={() => setDisplayTxModal(false)}
+        onClose={() => {
+          setDisplayTxModal(false)
+          resetClaimBadgeState()
+          resetCleanUpState()
+        }}
       />
     )
   }
 
   const renderClaimableBadges = () => {
     return getClaimableBadgesData?.map((badge, i) => {
-      // TODO: if "isFulfilled" is true, render a trash can icon and
-      // on click, run the cleanUpClaim transaction to remove it from
-      // the list
       return (
         <div className="" key={i}>
           <DefaultButton
@@ -88,6 +91,7 @@ const MintPage: NextPage = () => {
     <PageLayout title="Mint" authRequired={true}>
       {renderTxModal()}
       <div className="flex flex-col gap-4 py-12 px-20">
+        <div></div>
         {renderClaimableBadges()}
       </div>
     </PageLayout>

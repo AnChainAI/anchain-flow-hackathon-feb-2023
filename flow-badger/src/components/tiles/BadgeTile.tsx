@@ -8,8 +8,14 @@ interface BTProps {
 export const BadgeTile: React.FC<BTProps> = ({ imgURL, title }) => {
   return (
     <div className="flex flex-col gap-2">
-      <img src={imgURL} alt="Badge Img" width={200} height={200} />
-      <div>{title}</div>
+      <img
+        src={imgURL}
+        alt="Badge Img"
+        width={200}
+        height={200}
+        className="rounded-sm"
+      />
+      <div className="font-raj text-lg">{title}</div>
     </div>
   )
 }

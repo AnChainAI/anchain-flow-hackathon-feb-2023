@@ -42,16 +42,16 @@ export const FileDropzone: React.FC<DropzoneProps> = ({
 
   const determineStyle = () => {
     if (lightGradient && fullWidth) {
-      return 'flex w-full h-[250px] flex-col items-center justify-center rounded-lg bg-gradient-to-b from-green-200/50 to-purple-100/50 hover:cursor-pointer border-solid	border-2	border-purple-500'
+      return 'flex w-full h-[250px] flex-col items-center justify-center rounded-lg bg-gradient-to-b from-green-200/50 to-purple-100/50 hover:cursor-pointer border-solid	border-2	border-green-700'
     }
     if (fullWidth) {
-      return 'flex w-full flex-col items-center justify-center rounded-lg bg-gradient-radial from-green-600 to-purple-200 hover:cursor-pointer'
+      return 'flex w-full flex-col items-center justify-center rounded-lg bg-gradient-radial from-green-600 to-green-700 hover:cursor-pointer'
     }
 
     if (lightGradient) {
-      return 'flex h-[250px] w-[250px] flex-col items-center justify-center rounded-lg bg-gradient-to-b	from-green-200/50 to-purple-100/50 hover:cursor-pointer border-solid	border-2	border-purple-500 '
+      return 'flex h-[250px] w-[250px] flex-col items-center justify-center rounded-lg bg-gradient-to-b	from-green-200/50 to-purple-100/50 hover:cursor-pointer border-solid	border-2	border-green-700 '
     }
-    return 'flex h-[250px] w-[250px] flex-col items-center justify-center rounded-lg bg-gradient-radial from-green-600 to-purple-200 hover:cursor-pointer '
+    return 'flex h-[250px] w-[250px] flex-col items-center justify-center rounded-lg bg-gradient-radial from-green-600 to-green-700 hover:cursor-pointer '
   }
 
   const determineErrorStyle = () => {

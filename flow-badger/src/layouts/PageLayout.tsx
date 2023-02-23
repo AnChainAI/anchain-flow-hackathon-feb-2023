@@ -19,12 +19,10 @@ export const PageLayout: React.FC<PLProps> = ({
   const renderStatus = () => {
     if ((authRequired && flowUser?.addr) || !authRequired) {
       return (
-        <div className="flex min-h-[calc(100vh-140px)] flex-col">
-          {children}
-        </div>
+        <div className="flex min-h-[calc(100vh-80px)] flex-col">{children}</div>
       )
     }
-    return <div className="flex min-h-[calc(100vh-140px)] flex-col" />
+    return <div className="flex min-h-[calc(100vh-80px)] flex-col" />
   }
 
   return (

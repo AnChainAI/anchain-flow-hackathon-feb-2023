@@ -13,7 +13,7 @@ export const DefaultButton: React.FC<DFProps> = ({
 }) => {
   return (
     <button
-      className={`flex items-center justify-center rounded-md bg-gradient-to-r from-green-500 to-purple-200 text-center font-raj text-white hover:cursor-pointer hover:brightness-75 ${
+      className={`flex items-center justify-center rounded-md bg-gradient-to-r from-green-500 to-green-700 text-center font-raj text-white hover:cursor-pointer hover:brightness-75 ${
         fullWidth && 'w-full'
       }`}
       style={

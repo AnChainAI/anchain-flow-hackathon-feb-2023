@@ -9,10 +9,8 @@ module.exports = {
       },
       colors: {
         green: {
-          500: '#62fcaf'
-        },
-        purple: {
-          200: '#9300fe'
+          500: '#62fcaf',
+          700: '#009557'
         }
       },
       backgroundImage: {

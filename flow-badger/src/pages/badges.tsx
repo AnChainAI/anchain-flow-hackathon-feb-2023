@@ -1,19 +1,11 @@
-import { useGetBadges, useSetupAccount, useGetFlowUser } from 'hooks'
-import { DefaultButton } from 'components'
-import { PageLayout } from 'layouts'
+import { useGetBadges, useGetFlowUser } from 'hooks'
+import { BadgeTile } from 'components'
 import type { NextPage } from 'next'
+import { PageLayout } from 'layouts'
 import { useEffect } from 'react'
 
 const BadgesPage: NextPage = () => {
-  const {
-    runScript: getBadges,
-    hasCollection,
-    loading,
-    error,
-    data
-  } = useGetBadges()
-
-  const { runTransaction: installCollection } = useSetupAccount()
+  const { runScript: getBadges, data } = useGetBadges()
   const { flowUser } = useGetFlowUser()
 
   useEffect(() => {
@@ -25,17 +17,21 @@ const BadgesPage: NextPage = () => {
 
   const renderbadges = () => {
     return data?.map((badge, i) => {
-      return <div key={i}>{JSON.stringify(badge)}</div>
+      return (
+        <BadgeTile
+          title={`${badge?.nftType ?? ''} #${badge?.id}`}
+          imgURL={badge?.url}
+          key={i}
+        />
+      )
     })
   }
 
   return (
     <PageLayout title="Badges" authRequired={true}>
-      {hasCollection ? (
-        renderbadges()
-      ) : (
-        <DefaultButton text="Install" onClick={installCollection} />
-      )}
+      <div className="flex flex-col gap-4 py-12 px-20">
+        <div className="flex flex-wrap gap-12">{renderbadges()}</div>
+      </div>
     </PageLayout>
   )
 }

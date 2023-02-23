@@ -27,7 +27,7 @@ export const TransactionModal: React.FC<TxModalProps> = ({
     return (
       <div className="flex flex-col content-center items-center justify-center gap-12">
         <MultiCubeLoader />
-        <div className="items-center bg-gradient-to-r from-green-500 to-purple-200 bg-clip-text font-raj text-3xl font-bold text-transparent">
+        <div className="items-center bg-gradient-to-r from-green-500 to-green-700 bg-clip-text font-raj text-3xl font-bold text-transparent">
           Transaction in Progress
         </div>
       </div>
@@ -41,7 +41,7 @@ export const TransactionModal: React.FC<TxModalProps> = ({
           <ClearIcon />
         </div>
         <div className="flex h-full flex-col items-center justify-between gap-6">
-          <div className="bg-gradient-to-r from-green-500 to-purple-200 bg-clip-text font-raj text-3xl font-bold text-transparent">
+          <div className="bg-gradient-to-r from-green-500 to-green-700 bg-clip-text font-raj text-3xl font-bold text-transparent">
             Transaction Successful
           </div>
           <div className="flex items-end">
@@ -59,7 +59,7 @@ export const TransactionModal: React.FC<TxModalProps> = ({
           <ClearIcon />
         </div>
         <div className="mt-4 flex h-full flex-col items-center gap-12">
-          <div className="bg-gradient-to-r from-green-500 to-purple-200 bg-clip-text font-raj text-3xl font-bold text-transparent">
+          <div className="bg-gradient-to-r from-green-500 to-green-700 bg-clip-text font-raj text-3xl font-bold text-transparent">
             {error?.message}
           </div>
           <div className="flex items-end mt-4">
