@@ -5,22 +5,13 @@ import { wrapAddress } from 'flow/wrappers/address.wrapper'
 
 const CODE = `
 import AnChainSoulboundNFT from 0xAnChainSoulboundNFT
-import MetadataViews from 0xMetadataViews
-
-pub struct Metadata {
-  pub let id: UInt64
-  pub let url: String
-  init(id: UInt64, url: String) {
-    self.id = id
-    self.url = url
-  }  
-}
+import NonFungibleToken from 0xNonFungibleToken
 
 pub struct ScriptStatus {
   pub let statusCode: UInt64
   pub let message: String
-  pub let data: [Metadata]?
-  init(statusCode: UInt64, message: String, data: [Metadata]?) {
+  pub let data: [&NonFungibleToken.NFT]?
+  init(statusCode: UInt64, message: String, data: [&NonFungibleToken.NFT]?) {
     self.statusCode = statusCode
     self.message = message
     self.data = data
@@ -30,7 +21,7 @@ pub struct ScriptStatus {
 pub fun main(address: Address): ScriptStatus {
   let collection = getAccount(address)
     .getCapability(AnChainSoulboundNFT.CollectionPublicPath)
-    .borrow<&{MetadataViews.ResolverCollection}>()
+    .borrow<&{NonFungibleToken.CollectionPublic}>()
 
   if collection == nil {
     return ScriptStatus(
@@ -40,27 +31,10 @@ pub fun main(address: Address): ScriptStatus {
     )
   }
 
-  let soulboundNFTs: [Metadata] = []
+  let soulboundNFTs: [&NonFungibleToken.NFT] = []
   let nftCollection = collection!
   for nftID in nftCollection.getIDs() {
-    let resolver = nftCollection.borrowViewResolver(id: nftID)
-
-    let view = resolver.resolveView(Type<MetadataViews.Display>())
-    if view == nil {
-      return ScriptStatus(
-        statusCode: 400,
-        message: "NFT collection does not implement MetadataViews.Display",
-        data: nil
-      )
-    }
-
-    let data = view! as! MetadataViews.Display
-    soulboundNFTs.append(
-      Metadata(
-        id: nftID,
-        url: data.thumbnail.uri()
-      )
-    )
+    soulboundNFTs.append(nftCollection.borrowNFT(id: nftID))
   }
 
   return ScriptStatus(

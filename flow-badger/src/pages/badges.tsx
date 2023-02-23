@@ -3,6 +3,7 @@ import { BadgeTile } from 'components'
 import type { NextPage } from 'next'
 import { PageLayout } from 'layouts'
 import { useEffect } from 'react'
+import { constants } from 'utils'
 
 const BadgesPage: NextPage = () => {
   const { runScript: getBadges, data } = useGetBadges()
@@ -17,10 +18,11 @@ const BadgesPage: NextPage = () => {
 
   const renderbadges = () => {
     return data?.map((badge, i) => {
+      console.log(badge)
       return (
         <BadgeTile
-          title={`${badge?.nftType ?? ''} #${badge?.id}`}
-          imgURL={badge?.url}
+          title={`${badge?.name ?? ''} #${badge?.id}`}
+          imgURL={constants.IPFS_URL.concat(badge?.asset.file.cid)}
           key={i}
         />
       )

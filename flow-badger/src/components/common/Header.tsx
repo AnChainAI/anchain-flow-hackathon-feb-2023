@@ -1,8 +1,7 @@
+import { loginToWallet, logoutOfWallet } from 'flow'
 import { useRouter } from 'next/dist/client/router'
 import { DefaultButton } from 'components'
 import { useGetFlowUser } from 'hooks'
-import { logoutOfWallet } from 'flow'
-import * as fcl from '@onflow/fcl'
 import React from 'react'
 
 export const Header = () => {
@@ -24,7 +23,7 @@ export const Header = () => {
         </div>
       )
     }
-    return <DefaultButton text="Connect Wallet" onClick={fcl.authenticate} />
+    return <DefaultButton text="Connect Wallet" onClick={loginToWallet} />
   }
 
   const renderHeaderOptions = () => {
