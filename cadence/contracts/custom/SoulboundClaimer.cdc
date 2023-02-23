@@ -17,6 +17,7 @@ pub contract SoulboundClaimer {
     pub let senderAddress: Address
     pub let issuedAt: UFix64
     pub var isFulfilled: Bool
+    pub let name: String
     pub let ipfsCID: String
     pub let fileExt: String
     pub let metadata: {String:String}
@@ -29,7 +30,7 @@ pub contract SoulboundClaimer {
       claimResourceID: UInt64,
       receiverAddress: Address,
       senderAddress: Address,
-      issuedAt: UFix64,
+      name: String,
       ipfsCID: String,
       fileExt: String,
       metadata: {String:String}
@@ -37,8 +38,9 @@ pub contract SoulboundClaimer {
       self.claimResourceID = claimResourceID
       self.receiverAddress = receiverAddress
       self.senderAddress = senderAddress
-      self.issuedAt = issuedAt
+      self.issuedAt = getCurrentBlock().timestamp
       self.isFulfilled = false
+      self.name = name 
       self.ipfsCID = ipfsCID
       self.fileExt = fileExt
       self.metadata = metadata
@@ -70,6 +72,7 @@ pub contract SoulboundClaimer {
 
       self.receiver.borrow()!.deposit(
         token: <- sbtMinter.mintNFT(
+          self.details.name,
           self.details.ipfsCID,
           self.details.fileExt,
           self.details.metadata
@@ -89,6 +92,7 @@ pub contract SoulboundClaimer {
     init(
       receiverAddress: Address,
       senderAddress: Address,
+      name: String,
       ipfsCID: String,
       fileExt: String,
       metadata: {String:String}
@@ -101,7 +105,7 @@ pub contract SoulboundClaimer {
         claimResourceID: self.uuid,
         receiverAddress: receiverAddress,
         senderAddress: senderAddress,
-        issuedAt: getCurrentBlock().timestamp,
+        name: name,
         ipfsCID: ipfsCID,
         fileExt: fileExt,
         metadata: metadata
@@ -129,6 +133,7 @@ pub contract SoulboundClaimer {
     pub fun createClaim(
       receiverAddress: Address,
       senderAddress: Address,
+      name: String,
       ipfsCID: String,
       fileExt: String,
       metadata: {String:String}
@@ -141,6 +146,7 @@ pub contract SoulboundClaimer {
     pub fun createClaim(
       receiverAddress: Address,
       senderAddress: Address,
+      name: String,
       ipfsCID: String,
       fileExt: String,
       metadata: {String:String}
@@ -148,6 +154,7 @@ pub contract SoulboundClaimer {
       let claim <- create Claim(
         receiverAddress: receiverAddress,
         senderAddress: senderAddress,
+        name: name,
         ipfsCID: ipfsCID,
         fileExt: fileExt,
         metadata: metadata

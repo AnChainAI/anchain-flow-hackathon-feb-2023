@@ -18,16 +18,19 @@ pub contract AnChainSoulboundNFT: NonFungibleToken {
 
   pub resource NFT: NonFungibleToken.INFT, MetadataViews.Resolver {
     pub let id: UInt64
+    pub let name: String
     pub let mintBlockHeight: UInt64    
     pub let asset: MetadataViews.Media
     access(self) let metadata: {String:String}
 
     init(
+      name: String,
       ipfsCID: String,
       fileExt: String,
       metadata: {String:String}
     ) {
       self.id = AnChainSoulboundNFT.totalSupply
+      self.name = name
       self.mintBlockHeight = getCurrentBlock().height
       self.metadata = metadata
       self.asset = MetadataViews.Media(
@@ -231,8 +234,8 @@ pub contract AnChainSoulboundNFT: NonFungibleToken {
   }
 
   pub resource NFTMinter {
-    pub fun mintNFT(_ ipfsCID: String, _ fileExt: String, _ metadata: {String:String}): @NFT {
-      return <- create NFT(ipfsCID: ipfsCID, fileExt: fileExt, metadata: metadata)
+    pub fun mintNFT(_ name: String, _ ipfsCID: String, _ fileExt: String, _ metadata: {String:String}): @NFT {
+      return <- create NFT(name: name, ipfsCID: ipfsCID, fileExt: fileExt, metadata: metadata)
     }
   }
 
