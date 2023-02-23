@@ -1,5 +1,5 @@
+import { DefaultButton, RedeemRow } from 'components'
 import { useEffect, useState } from 'react'
-import { DefaultButton } from 'components'
 import { TransactionModal } from 'modals'
 import { PageLayout } from 'layouts'
 import type { NextPage } from 'next'
@@ -70,19 +70,19 @@ const MintPage: NextPage = () => {
   const renderClaimableBadges = () => {
     return getClaimableBadgesData?.map((badge, i) => {
       return (
-        <div className="" key={i}>
-          <DefaultButton
-            text="Mint Me"
-            onClick={() => {
-              loginToWallet(async () => {
-                await claimBadge({
-                  claimResourceID: badge?.claimResourceID
-                })
+        <RedeemRow
+          alternate={i % 2 == 1}
+          data={badge}
+          key={i}
+          onMintClick={() => {
+            loginToWallet(async () => {
+              await claimBadge({
+                claimResourceID: badge?.claimResourceID
               })
-            }}
-          />
-          <div key={i}>{JSON.stringify(badge)}</div>
-        </div>
+            })
+          }}
+          onPreviewClick={() => {}}
+        />
       )
     })
   }
@@ -91,7 +91,14 @@ const MintPage: NextPage = () => {
     <PageLayout title="Mint" authRequired={true}>
       {renderTxModal()}
       <div className="flex flex-col gap-4 py-12 px-20">
-        <div></div>
+        <div className="flex justify-between gap-5">
+          <div className="flex min-w-[350px] font-raj text-2xl">State</div>
+          <div className="flex min-w-[350px] font-raj text-2xl">Badge Name</div>
+          <div className="flex min-w-[350px] font-raj text-2xl">Issued By</div>
+          <div className="flex min-w-[350px] font-raj text-2xl">
+            Recieved At
+          </div>
+        </div>
         {renderClaimableBadges()}
       </div>
     </PageLayout>
