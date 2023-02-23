@@ -1,5 +1,5 @@
 import { isValidFlowNetwork } from './is-valid-flow-network'
-import { constants } from '../../util/constants'
+import { constants } from '../../utils/constants'
 
 export function inferFlowNetwork() {
   const accessNode = constants.FLOW_NETWORK

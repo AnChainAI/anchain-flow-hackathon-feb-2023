@@ -12,6 +12,20 @@
     "testnet": "access.devnet.nodes.onflow.org:9000"
   },
   "contracts": {
+    "AnChainSoulboundNFT": {
+      "source": "./cadence/contracts/custom/AnChainSoulboundNFT.cdc",
+      "aliases": {
+        "emulator": "0x01cf0e2f2f715450",
+        "testnet": "0xe84569d5c98aa48f"
+      }
+    },
+    "SoulboundClaimer": {
+      "source": "./cadence/contracts/custom/SoulboundClaimer.cdc",
+      "aliases": {
+        "emulator": "0x01cf0e2f2f715450",
+        "testnet": "0xe84569d5c98aa48f"
+      }
+    },
     "MetadataViews": {
       "source": "./cadence/contracts/standard/MetadataViews.cdc",
       "aliases": {
@@ -69,6 +83,13 @@
     "dev-account": {
       "address": "01cf0e2f2f715450",
       "key": "d30728757a139fcbb33d28fe922c27e3febaf969272bdafde5f0a86291aec25c"
+    },
+    "testnet-account": {
+      "address": "e84569d5c98aa48f",
+      "key": {
+        "type": "file",
+        "location": "./testnet.pkey"
+      }
     }
   },
   "deployments": {
@@ -79,7 +100,10 @@
         "NFTStorefront",
         "NFTStorefrontV2"
       ],
-      "dev-account": []
+      "dev-account": ["AnChainSoulboundNFT", "SoulboundClaimer"]
+    },
+    "testnet": {
+      "testnet-account": ["AnChainSoulboundNFT", "SoulboundClaimer"]
     }
   }
 }

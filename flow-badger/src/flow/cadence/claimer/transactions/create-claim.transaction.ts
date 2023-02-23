@@ -1,13 +1,13 @@
 import { Transaction } from 'flow/cadence/utils/transactions/base.transaction'
 import { wrapAddress } from 'flow/wrappers/address.wrapper'
-import { wrapBoolean } from 'flow/wrappers/boolean.wrapper'
 import { wrapObject } from 'flow/wrappers/object.wrapper'
 import { wrapString } from 'flow/wrappers/string.wrapper'
+import { flowConfig } from 'flow/flow.config'
 
 const CODE = `
-import AnChainSoulboundNFT from 0xAnChainSoulboundNFT
-import NonFungibleToken from 0xNonFungibleToken
-import SoulboundClaimer from 0xSoulboundClaimer
+import AnChainSoulboundNFT from ${flowConfig['0xAnChainSoulboundNFT']}
+import NonFungibleToken from ${flowConfig['0xNonFungibleToken']}
+import SoulboundClaimer from ${flowConfig['0xSoulboundClaimer']}
 
 transaction(
   receiverAddress: Address,
@@ -39,7 +39,6 @@ transaction(
 export interface CreateClaimArgs {
   readonly receiverAddress: string
   readonly senderAddress: string
-  readonly isFulfilled: boolean
   readonly ipfsCID: string
   readonly fileExt: string
   readonly metadata: Record<string, string>
@@ -55,7 +54,6 @@ export const CreateClaim =
       return [
         wrapAddress(args.receiverAddress),
         wrapAddress(args.senderAddress),
-        wrapBoolean(args.isFulfilled),
         wrapString(args.ipfsCID),
         wrapString(args.fileExt),
         wrapObject(args.metadata)

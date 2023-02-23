@@ -11,7 +11,7 @@ export const useCreateBadge = () => {
   return {
     ...state,
     runTransaction: async (
-      args: any,
+      args: CreateClaimArgs,
       opts: Partial<TransactionOpts> = {},
       cbs: Partial<TransactionCallbacks> = {}
     ) => {

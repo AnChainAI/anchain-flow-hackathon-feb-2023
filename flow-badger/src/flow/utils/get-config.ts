@@ -1,7 +1,7 @@
 import { FlowConfigKey } from '../enums/flow-config-key.enum'
 import { FlowNetwork } from '../enums/flow-network.enum'
 import { inferFlowNetwork } from './infer-flow-network'
-import { constants } from '../../util/constants'
+import { constants } from '../../utils/constants'
 
 /**
  * https://developers.flow.com/tools/fcl-js/reference/configure-fcl
@@ -29,8 +29,8 @@ export function getConfig(): Record<FlowConfigKey, string> {
       [FlowConfigKey['0xFlowUtilityToken']]: '0x82ec283f88a62e65',
       [FlowConfigKey['0xNFTStorefront']]: '0x2d55b98eb200daef',
       [FlowConfigKey['0xMerchantAccount']]: '0x26e7006d6734ba69',
-      [FlowConfigKey['0xAnChainSoulboundNFT']]: '',
-      [FlowConfigKey['0xSoulboundClaimer']]: ''
+      [FlowConfigKey['0xAnChainSoulboundNFT']]: '0xe84569d5c98aa48f',
+      [FlowConfigKey['0xSoulboundClaimer']]: '0xe84569d5c98aa48f'
     },
     [FlowNetwork.MAINNET]: {
       [FlowConfigKey['flow.network']]: FlowNetwork.MAINNET,

@@ -4,12 +4,6 @@ import { CreateClaim } from 'flow'
 import { decode } from 'rlp'
 import { SHA3 } from 'sha3'
 
-export const config = {
-  api: {
-    bodyParser: false
-  }
-}
-
 function normalizeTxCode(code: string) {
   return code.replace(/\s/g, '')
 }
@@ -56,14 +50,14 @@ export const hashMsg = (msg: string) => {
 // TODO: refactor + add comments + test
 export default async function (req: NextApiRequest, res: NextApiResponse) {
   try {
-    //
+    // Get private key from process env
     const privKey = process.env['ADMIN_PRIVATE_KEY']
     if (privKey == null) {
       return res.status(500).json({ error: 'Private key is not configured' })
     }
 
-    //
-    const msg = req.body.message
+    // Get transaction message from request body
+    const msg: string = JSON.parse(req.body)['message']
     if (msg == null) {
       return res.status(400).json({
         error: 'Message is required'
@@ -83,7 +77,7 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
       }
     }
 
-    //
+    // Return the signed message
     return res.status(200).json({
       data: signWithKey(privKey, msg)
     })
