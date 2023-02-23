@@ -12,6 +12,7 @@ import SoulboundClaimer from ${flowConfig['0xSoulboundClaimer']}
 transaction(
   receiverAddress: Address,
   senderAddress: Address,
+  name: String,
   ipfsCID: String,
   fileExt: String,
   metadata: {String:String}
@@ -28,6 +29,7 @@ transaction(
     self.claimer.createClaim(
       receiverAddress: receiverAddress, 
       senderAddress: senderAddress, 
+      name: name,
       ipfsCID: ipfsCID, 
       fileExt: fileExt,
       metadata: metadata
@@ -39,6 +41,7 @@ transaction(
 export interface CreateClaimArgs {
   readonly receiverAddress: string
   readonly senderAddress: string
+  readonly name: string
   readonly ipfsCID: string
   readonly fileExt: string
   readonly metadata: Record<string, string>
@@ -54,6 +57,7 @@ export const CreateClaim =
       return [
         wrapAddress(args.receiverAddress),
         wrapAddress(args.senderAddress),
+        wrapString(args.name),
         wrapString(args.ipfsCID),
         wrapString(args.fileExt),
         wrapObject(args.metadata)
