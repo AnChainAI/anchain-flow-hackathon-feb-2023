@@ -1,12 +1,13 @@
+import { DefaultButton, MultiCubeLoader } from 'components'
 import { Transition, Dialog } from '@headlessui/react'
-import { DefaultButton } from 'components'
+import { TransactionStatus } from 'flow'
 import { ClearIcon } from 'svgs'
 import React from 'react'
 
 interface TxModalProps {
   loading: boolean
-  success: boolean
-  error: string
+  success: TransactionStatus | null
+  error: Error | null
   open: boolean
   onClose: () => void
 }
@@ -18,14 +19,16 @@ export const TransactionModal: React.FC<TxModalProps> = ({
   open,
   onClose
 }) => {
+  const onFlowScanClick = (id: string) => {
+    window.open('https://testnet.flowscan.org/transaction/' + id, '__blank')
+  }
+
   const renderLoading = () => {
     return (
-      <div className="relative top-1/2 left-1/2 z-30 h-[450px] max-w-md -translate-x-1/2 -translate-y-1/2 rounded bg-white py-8 shadow-lg">
-        <div className="flex flex-col content-center items-center justify-center gap-12">
-          <img src="/icons/flow.png" width={220} className="max-h-[250px]" />
-          <div className="items-center bg-gradient-to-r from-green-500 to-purple-200 bg-clip-text font-raj text-3xl font-bold text-transparent">
-            Transaction in Progress
-          </div>
+      <div className="flex flex-col content-center items-center justify-center gap-12">
+        <MultiCubeLoader />
+        <div className="items-center bg-gradient-to-r from-green-500 to-purple-200 bg-clip-text font-raj text-3xl font-bold text-transparent">
+          Transaction in Progress
         </div>
       </div>
     )
@@ -33,19 +36,16 @@ export const TransactionModal: React.FC<TxModalProps> = ({
 
   const renderSuccess = () => {
     return (
-      <div className="relative top-1/2 left-1/2 z-30 h-[500px] max-w-md -translate-x-1/2 -translate-y-1/2 rounded bg-white py-8 shadow-lg">
+      <div className="flex h-full flex-col items-center justify-between gap-6">
+        <div className="ml-auto mr-8 cursor-pointer" onClick={onClose}>
+          <ClearIcon />
+        </div>
         <div className="flex h-full flex-col items-center justify-between gap-6">
-          <div className="ml-auto mr-8 cursor-pointer" onClick={onClose}>
-            <ClearIcon />
+          <div className="bg-gradient-to-r from-green-500 to-purple-200 bg-clip-text font-raj text-3xl font-bold text-transparent">
+            Transaction Successful
           </div>
-          <div className="flex h-full flex-col items-center justify-between gap-6">
-            <div className="bg-gradient-to-r from-green-500 to-purple-200 bg-clip-text font-raj text-3xl font-bold text-transparent">
-              Transaction Successful
-            </div>
-            <div className="flex items-end">
-              <DefaultButton text="View on Flowscan" onClick={() => {}} />
-              <DefaultButton text="Close" onClick={onClose} />
-            </div>
+          <div className="flex items-end">
+            <DefaultButton text="Close" onClick={onClose} />
           </div>
         </div>
       </div>
@@ -54,18 +54,16 @@ export const TransactionModal: React.FC<TxModalProps> = ({
 
   const renderError = () => {
     return (
-      <div className="relative top-1/2 left-1/2 z-30 h-[300px] max-w-md -translate-x-1/2 -translate-y-1/2 rounded bg-white py-8 shadow-lg">
-        <div className="flex h-full flex-col items-center justify-between gap-6">
-          <div className="ml-auto mr-8 cursor-pointer" onClick={onClose}>
-            <ClearIcon />
+      <div className="flex h-full flex-col items-center  gap-8">
+        <div className="ml-auto mr-2 cursor-pointer" onClick={onClose}>
+          <ClearIcon />
+        </div>
+        <div className="mt-4 flex h-full flex-col items-center gap-12">
+          <div className="bg-gradient-to-r from-green-500 to-purple-200 bg-clip-text font-raj text-3xl font-bold text-transparent">
+            {error?.message}
           </div>
-          <div className="mt-4 flex h-full flex-col items-center gap-12">
-            <div className="bg-gradient-to-r from-green-500 to-purple-200 bg-clip-text font-raj text-3xl font-bold text-transparent">
-              {error}
-            </div>
-            <div className="flex items-end">
-              <DefaultButton text="Close" onClick={onClose} />
-            </div>
+          <div className="flex items-end mt-4">
+            <DefaultButton text="Close" onClick={onClose} />
           </div>
         </div>
       </div>
@@ -101,7 +99,7 @@ export const TransactionModal: React.FC<TxModalProps> = ({
         onClose={onClose}
         open={open}
       >
-        <div className="relative top-1/2 left-1/2 z-30 h-[600px] max-w-md -translate-x-1/2 -translate-y-1/2 rounded bg-white px-11 py-10 shadow-lg">
+        <div className="relative top-1/2 left-1/2 z-30 h-[500px] max-w-md -translate-x-1/2 -translate-y-1/2 rounded bg-white px-11 py-10 shadow-lg">
           <div className="flex h-full flex-col items-center justify-between">
             {renderTxState()}
           </div>

@@ -1,6 +1,7 @@
 export * from './use-get-claimable-badges'
 export * from './use-get-flow-user'
 export * from './use-setup-account'
+export * from './use-cleanup-claim'
 export * from './use-create-badge'
 export * from './use-claim-badge'
 export * from './use-get-badges'
