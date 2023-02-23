@@ -81,7 +81,6 @@ const MintPage: NextPage = () => {
               })
             })
           }}
-          onPreviewClick={() => {}}
         />
       )
     })
@@ -92,11 +91,11 @@ const MintPage: NextPage = () => {
       {renderTxModal()}
       <div className="flex flex-col gap-4 py-12 px-20">
         <div className="flex justify-between gap-5">
-          <div className="flex min-w-[350px] font-raj text-2xl">State</div>
-          <div className="flex min-w-[350px] font-raj text-2xl">Badge Name</div>
-          <div className="flex min-w-[350px] font-raj text-2xl">Issued By</div>
-          <div className="flex min-w-[350px] font-raj text-2xl">
-            Recieved At
+          <div className="flex min-w-[300px] font-raj text-2xl">State</div>
+          <div className="flex min-w-[300px] font-raj text-2xl">Badge Name</div>
+          <div className="flex min-w-[300px] font-raj text-2xl">Issued By</div>
+          <div className="flex min-w-[300px] font-raj text-2xl">
+            Date Issued
           </div>
         </div>
         {renderClaimableBadges()}

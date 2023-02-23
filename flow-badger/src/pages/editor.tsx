@@ -85,38 +85,14 @@ const EditorPage: NextPage = () => {
               <input
                 className="h-[44px] w-[400px] border-2 p-2"
                 {...register(String(i), {
-                  required: 'This field is required.',
-                  minLength: {
-                    value: 1,
-                    message: 'This input must exceed 1 character'
-                  },
-                  maxLength: {
-                    value: 64,
-                    message: 'Input cannot exceed 64 characters'
-                  },
-                  pattern: {
-                    value: /^[a-zA-Z0-9]+$/,
-                    message: 'Invalid Field Name'
-                  }
+                  required: 'This field is required.'
                 })}
                 placeholder="Key"
               />
               <input
                 className="h-[44px] w-[400px] border-2 p-2"
                 {...register(String(i + '_val'), {
-                  required: 'This field is required.',
-                  minLength: {
-                    value: 1,
-                    message: 'This input must exceed 1 character'
-                  },
-                  maxLength: {
-                    value: 64,
-                    message: 'Input cannot exceed 64 characters'
-                  },
-                  pattern: {
-                    value: /^[a-zA-Z0-9]+$/,
-                    message: 'Invalid Field Name'
-                  }
+                  required: 'This field is required.'
                 })}
                 placeholder="Value"
               />
@@ -191,7 +167,8 @@ const EditorPage: NextPage = () => {
               senderAddress: address,
               ipfsCID: path,
               fileExt: '',
-              metadata: formatMetadata()
+              metadata: formatMetadata(),
+              name: getValues('badgeName')
             },
             {
               authorizations: [adminAuthz],
@@ -217,19 +194,7 @@ const EditorPage: NextPage = () => {
           <input
             className="h-[44px] w-[400px] border-2 p-2"
             {...register('badgeName', {
-              required: 'This field is required.',
-              minLength: {
-                value: 1,
-                message: 'This input must exceed 1 character'
-              },
-              maxLength: {
-                value: 64,
-                message: 'Input cannot exceed 64 characters'
-              },
-              pattern: {
-                value: /^[a-zA-Z0-9]+$/,
-                message: 'Invalid Field Name'
-              }
+              required: 'This field is required.'
             })}
           />
           <ErrorMessage
@@ -247,19 +212,7 @@ const EditorPage: NextPage = () => {
           <input
             className="h-[44px] w-[400px] border-2 p-2"
             {...register('walletAddr', {
-              required: 'This field is required.',
-              // minLength: {
-              //   value: 20,
-              //   message: 'This input must be 20 characters in the 0x... format'
-              // },
-              // maxLength: {
-              //   value: 20,
-              //   message: 'This input must be 20 characters in the 0x... format'
-              // },
-              pattern: {
-                value: /^[a-zA-Z0-9]+$/,
-                message: 'Invalid Field Name'
-              }
+              required: 'This field is required.'
             })}
           />
           <ErrorMessage
@@ -294,8 +247,13 @@ const EditorPage: NextPage = () => {
             {renderMetadataSection()}
           </div>
         </div>
-
-        <DefaultButton text="Mint" onClick={handleSubmit(issueBadge)} />
+        <div className="mt-8 w-full">
+          <DefaultButton
+            text="Mint"
+            onClick={handleSubmit(issueBadge)}
+            fullWidth={true}
+          />
+        </div>
       </div>
     </PageLayout>
   )

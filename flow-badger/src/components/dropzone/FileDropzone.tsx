@@ -120,7 +120,7 @@ export const FileDropzone: React.FC<DropzoneProps> = ({
   const currentImage = () => {
     return (
       <div className={imgStyle}>
-        <img src={imgUrl ?? ''} className="hover:cursor-pointer" />
+        <img src={imgUrl ?? ''} className="rounded-md hover:cursor-pointer" />
       </div>
     )
   }

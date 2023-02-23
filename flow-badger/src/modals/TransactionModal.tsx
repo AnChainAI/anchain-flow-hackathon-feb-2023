@@ -25,10 +25,12 @@ export const TransactionModal: React.FC<TxModalProps> = ({
 
   const renderLoading = () => {
     return (
-      <div className="flex flex-col content-center items-center justify-center gap-12">
-        <MultiCubeLoader />
-        <div className="items-center bg-gradient-to-r from-green-500 to-green-700 bg-clip-text font-raj text-3xl font-bold text-transparent">
-          Transaction in Progress
+      <div className="relative top-1/2 left-1/2 z-30 h-[400px] max-w-md -translate-x-1/2 -translate-y-1/2 rounded bg-white py-8 shadow-lg">
+        <div className="mt-20 flex flex-col content-center items-center justify-center gap-20">
+          <MultiCubeLoader />
+          <div className="items-center bg-gradient-to-r from-green-500 to-green-700 bg-clip-text font-raj text-3xl font-bold text-transparent">
+            Transaction in Progress
+          </div>
         </div>
       </div>
     )
@@ -36,16 +38,20 @@ export const TransactionModal: React.FC<TxModalProps> = ({
 
   const renderSuccess = () => {
     return (
-      <div className="flex h-full flex-col items-center justify-between gap-6">
-        <div className="ml-auto mr-8 cursor-pointer" onClick={onClose}>
-          <ClearIcon />
-        </div>
+      <div className="relative top-1/2 left-1/2 z-30 h-[300px] max-w-md -translate-x-1/2 -translate-y-1/2 rounded bg-white p-8 shadow-lg">
         <div className="flex h-full flex-col items-center justify-between gap-6">
-          <div className="bg-gradient-to-r from-green-500 to-green-700 bg-clip-text font-raj text-3xl font-bold text-transparent">
-            Transaction Successful
-          </div>
-          <div className="flex items-end">
-            <DefaultButton text="Close" onClick={onClose} />
+          <div className="flex h-full flex-col items-center  gap-8">
+            <div className="ml-auto mr-2 cursor-pointer" onClick={onClose}>
+              <ClearIcon />
+            </div>
+            <div className="mt-4 flex h-full flex-col items-center gap-12">
+              <div className="bg-gradient-to-r from-green-500 to-green-700 bg-clip-text font-raj text-3xl font-bold text-transparent">
+                Transaction Successful
+              </div>
+              <div className="mt-4 flex items-end">
+                <DefaultButton text="Close" onClick={onClose} />
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -54,18 +60,22 @@ export const TransactionModal: React.FC<TxModalProps> = ({
 
   const renderError = () => {
     return (
-      <div className="flex h-full flex-col items-center  gap-8">
-        <div className="ml-auto mr-2 cursor-pointer" onClick={onClose}>
-          <ClearIcon />
-        </div>
-        <div className="mt-4 flex h-full flex-col items-center gap-12">
-          <div className="bg-gradient-to-r from-green-500 to-green-700 bg-clip-text font-raj text-3xl font-bold text-transparent">
-            {error instanceof Error
-              ? error?.message
-              : 'Error with upload to IPFS'}
-          </div>
-          <div className="mt-4 flex items-end">
-            <DefaultButton text="Close" onClick={onClose} />
+      <div className="relative top-1/2 left-1/2 z-30 h-[300px] max-w-md -translate-x-1/2 -translate-y-1/2 rounded bg-white p-8 shadow-lg">
+        <div className="flex h-full flex-col items-center justify-between gap-6">
+          <div className="flex h-full flex-col items-center  gap-8">
+            <div className="ml-auto mr-2 cursor-pointer" onClick={onClose}>
+              <ClearIcon />
+            </div>
+            <div className="mt-4 flex h-full flex-col items-center gap-12">
+              <div className="bg-gradient-to-r from-green-500 to-green-700 bg-clip-text font-raj text-3xl font-bold text-transparent">
+                {error instanceof Error
+                  ? 'Error when running transaction'
+                  : 'Error with upload to IPFS'}
+              </div>
+              <div className="mt-4 flex items-end">
+                <DefaultButton text="Close" onClick={onClose} />
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -101,11 +111,7 @@ export const TransactionModal: React.FC<TxModalProps> = ({
         onClose={onClose}
         open={open}
       >
-        <div className="relative top-1/2 left-1/2 z-30 h-[500px] max-w-md -translate-x-1/2 -translate-y-1/2 rounded bg-white px-11 py-10 shadow-lg">
-          <div className="flex h-full flex-col items-center justify-between">
-            {renderTxState()}
-          </div>
-        </div>
+        {renderTxState()}
       </Dialog>
     </Transition>
   )
