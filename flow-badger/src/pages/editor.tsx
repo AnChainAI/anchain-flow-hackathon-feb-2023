@@ -1,5 +1,6 @@
 import { DefaultButton, FileDropzone } from 'components'
 import { useCreateBadge, useGetFlowUser } from 'hooks'
+import { useState, ChangeEvent } from 'react'
 import { useForm } from 'react-hook-form'
 import { PageLayout } from 'layouts'
 import { uploadToIPFS } from 'utils'
@@ -7,7 +8,6 @@ import type { NextPage } from 'next'
 import { getAdminAuthz, loginToWallet } from 'flow'
 import * as fcl from '@onflow/fcl'
 import { DeleteIcon } from 'svgs'
-import { useState } from 'react'
 
 type FileType = File | null | undefined
 
@@ -115,7 +115,9 @@ const EditorPage: NextPage = () => {
             <p>Badge Name: </p>
             <input placeholder="Name" />
             <p>Receiver Wallet Address: </p>
-            <input placeholder="Receiver" />
+            <input placeholder="Receiver" value={addr} onChange={(e: ChangeEvent<HTMLInputElement>) => {
+            setAddr(e.target.value)
+          }} />
             <p>Badge Metadata:</p>
             <div>{renderMetadataList()}</div>
           </div>

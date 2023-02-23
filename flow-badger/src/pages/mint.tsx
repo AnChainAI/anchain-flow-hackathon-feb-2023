@@ -34,13 +34,27 @@ const MintPage: NextPage = () => {
 
   const renderClaimableBadges = () => {
     return getClaimableBadgesData?.map((badge, i) => {
-      return <div key={i}>{JSON.stringify(badge)}</div>
+      return (
+        <div className="" key={i}>
+          <DefaultButton
+            text="Mint Me"
+            onClick={() => {
+              claimBadge({
+                adminAddress: flowConfig['0xAnChainSoulboundNFT'],
+                claimResourceID: badge?.claimResourceID
+              })
+            }}
+          />
+          <div key={i}>{JSON.stringify(badge)}</div>
+        </div>
+      )
     })
   }
 
   return (
     <PageLayout title="Mint" authRequired={true}>
       <div>Minting page</div>
+      {renderClaimableBadges()}
     </PageLayout>
   )
 }
