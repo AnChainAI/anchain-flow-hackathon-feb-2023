@@ -1,6 +1,6 @@
 import SoulboundClaimer from "../../contracts/custom/SoulboundClaimer.cdc"
 
-// flow scripts execute ./cadence/scripts/claimer/find-all.cdc 0xe84569d5c98aa48f --network=testnet
+// flow scripts execute ./cadence/scripts/claimer/find-all.cdc 0xe76c3718887d6fa1 --network=testnet
 pub struct ScriptStatus {
   pub let statusCode: UInt64
   pub let message: String

@@ -22,8 +22,8 @@ export function getConfig(): Record<FlowConfigKey, string> {
       [FlowConfigKey['0xFlowToken']]: '0x7e60df042a9c0868',
       [FlowConfigKey['0xFungibleToken']]: '0x9a0766d93b6608b7',
       [FlowConfigKey['0xNFTStorefront']]: '0x2d55b98eb200daef',
-      [FlowConfigKey['0xAnChainSoulboundNFT']]: '0xe84569d5c98aa48f',
-      [FlowConfigKey['0xSoulboundClaimer']]: '0xe84569d5c98aa48f'
+      [FlowConfigKey['0xAnChainSoulboundNFT']]: '0xe76c3718887d6fa1',
+      [FlowConfigKey['0xSoulboundClaimer']]: '0xe76c3718887d6fa1'
     },
     [FlowNetwork.MAINNET]: {
       [FlowConfigKey['flow.network']]: FlowNetwork.MAINNET,

@@ -16,14 +16,14 @@
       "source": "./cadence/contracts/custom/AnChainSoulboundNFT.cdc",
       "aliases": {
         "emulator": "0x01cf0e2f2f715450",
-        "testnet": "0xe84569d5c98aa48f"
+        "testnet": "0xe76c3718887d6fa1"
       }
     },
     "SoulboundClaimer": {
       "source": "./cadence/contracts/custom/SoulboundClaimer.cdc",
       "aliases": {
         "emulator": "0x01cf0e2f2f715450",
-        "testnet": "0xe84569d5c98aa48f"
+        "testnet": "0xe76c3718887d6fa1"
       }
     },
     "MetadataViews": {
@@ -85,7 +85,7 @@
       "key": "d30728757a139fcbb33d28fe922c27e3febaf969272bdafde5f0a86291aec25c"
     },
     "testnet-account": {
-      "address": "e84569d5c98aa48f",
+      "address": "e76c3718887d6fa1",
       "key": {
         "type": "file",
         "location": "./testnet.pkey"
