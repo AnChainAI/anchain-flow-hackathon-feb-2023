@@ -64,7 +64,8 @@ export default function Home() {
           digital asset, such as a cryptocurrency or a non-fungible token (NFT).
           Once a soulbound smart contract is attached to an asset, it becomes an
           integral part of that asset's identity and cannot be separated from
-          it.
+          it. In other words, transferring or burning a soulbound NFT is not
+          possible.
         </p>
         <p className="w-[800px] text-center font-raj text-lg text-black/50">
           Our design consists of two smart contracts: an NFT-based soulbound

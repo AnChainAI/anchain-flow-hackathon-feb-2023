@@ -178,7 +178,7 @@ pub contract AnChainSoulboundNFT: NonFungibleToken {
     }
 
     destroy() {
-      emit Burned(id: self.id, address: self.owner?.address)
+      panic("Cannot burn a soulbound NFT")
     }
   }
 
