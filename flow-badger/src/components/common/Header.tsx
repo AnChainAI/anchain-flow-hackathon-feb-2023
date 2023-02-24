@@ -1,27 +1,16 @@
-import { loginToWallet, logoutOfWallet } from 'flow'
+import { DefaultButton, AccountMenu } from 'components'
 import { useRouter } from 'next/dist/client/router'
-import { DefaultButton } from 'components'
 import { useGetFlowUser } from 'hooks'
+import { loginToWallet } from 'flow'
 import React from 'react'
 
 export const Header = () => {
   const { flowUser } = useGetFlowUser()
   const router = useRouter()
 
-  const cleanUpAddr = (addr: string) => {
-    return addr.substring(0, 6) + '...' + addr.substring(14)
-  }
-
   const renderAuth = () => {
     if (flowUser?.addr) {
-      return (
-        <div
-          className="hidden items-center border-2 border-green-500 bg-gradient-to-r from-green-500 to-green-700 bg-clip-text p-2 font-raj text-xl font-bold text-transparent hover:cursor-pointer sm:flex"
-          onClick={logoutOfWallet}
-        >
-          {cleanUpAddr(flowUser.addr)}
-        </div>
-      )
+      return <AccountMenu />
     }
     return <DefaultButton text="Connect Wallet" onClick={loginToWallet} />
   }

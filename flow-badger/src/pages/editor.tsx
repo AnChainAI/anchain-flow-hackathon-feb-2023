@@ -228,7 +228,7 @@ const EditorPage: NextPage = () => {
   }
 
   return (
-    <PageLayout title="Editor"  authRequired={true}>
+    <PageLayout title="Editor" authRequired={true}>
       {renderTxModal()}
       <div className="flex flex-col gap-4 py-12 px-20">
         <div className="font-raj text-2xl font-semibold">Create New Badge</div>
@@ -247,7 +247,7 @@ const EditorPage: NextPage = () => {
             {renderMetadataSection()}
           </div>
         </div>
-        <div className="mt-8 w-full">
+        <div className="mt-8 ml-96 w-96">
           <DefaultButton
             text="Mint"
             onClick={handleSubmit(issueBadge)}
