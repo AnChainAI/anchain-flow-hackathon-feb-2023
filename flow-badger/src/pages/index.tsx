@@ -30,7 +30,7 @@ export default function Home() {
           />
           <CaseTile
             description="Gorem ipsum dolor sit amet, consectetur adipiscing elit."
-            title="Certification"
+            title="Certifications"
             icon="/icons/cert.png"
           />
           <CaseTile
