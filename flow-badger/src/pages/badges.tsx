@@ -6,7 +6,7 @@ import { useEffect } from 'react'
 import { constants } from 'utils'
 
 const BadgesPage: NextPage = () => {
-  const { runScript: getBadges, data } = useGetBadges()
+  const { runScript: getBadges, data, hasCollection } = useGetBadges()
   const { flowUser } = useGetFlowUser()
 
   useEffect(() => {
@@ -17,8 +17,16 @@ const BadgesPage: NextPage = () => {
   }, [flowUser])
 
   const renderbadges = () => {
+    if (data?.length === 0 || hasCollection === false) {
+      return (
+        <div className="font-raj text-2xl text-green-700">
+          You currently don't own any badges. You can issue some on the 'Create'
+          page.
+        </div>
+      )
+    }
+
     return data?.map((badge, i) => {
-      console.log(badge)
       return (
         <BadgeTile
           title={`${badge?.name ?? ''} #${badge?.id}`}

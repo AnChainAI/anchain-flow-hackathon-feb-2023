@@ -228,7 +228,7 @@ const EditorPage: NextPage = () => {
   }
 
   return (
-    <PageLayout title="Editor">
+    <PageLayout title="Editor"  authRequired={true}>
       {renderTxModal()}
       <div className="flex flex-col gap-4 py-12 px-20">
         <div className="font-raj text-2xl font-semibold">Create New Badge</div>

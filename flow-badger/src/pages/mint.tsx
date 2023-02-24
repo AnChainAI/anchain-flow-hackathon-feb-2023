@@ -68,6 +68,14 @@ const MintPage: NextPage = () => {
   }
 
   const renderClaimableBadges = () => {
+    if (getClaimableBadgesData?.length === 0) {
+      return (
+        <div className="font-raj text-2xl text-green-700">
+          You currently don't have any badges to claim
+        </div>
+      )
+    }
+
     return getClaimableBadgesData?.map((badge, i) => {
       return (
         <RedeemRow
