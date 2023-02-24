@@ -7,11 +7,11 @@ interface BTProps {
 
 export const BadgeTile: React.FC<BTProps> = ({ imgURL, title }) => {
   return (
-    <div className="flex flex-col gap-2 rounded shadow">
+    <div className="flex w-fit flex-col gap-2 rounded shadow">
       <img
         src={imgURL}
         alt="Badge Img"
-        width={200}
+        min-width={220}
         height={200}
         className="rounded-sm"
       />
