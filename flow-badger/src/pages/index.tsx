@@ -27,22 +27,22 @@ export default function Home() {
         </div>
         <div className="flex flex-wrap gap-16">
           <CaseTile
-            description="Badges can be given to individuals in online communities to recognize contributions and achievements. By securing these badges to a Soul Bound token, it can be ensured that they are genuine and cannot be duplicated or traded for profit."
+            description="Badges can be given to individuals in online communities to recognize contributions and achievements. By securing these badges to a Soulbound token, it can be ensured that they are genuine and cannot be duplicated or traded for profit."
             title="Badges"
             icon="/icons/badge.png"
           />
           <CaseTile
-            description="Universities can issue digital certificates to their students that are tied to Soul Bound tokens. These tokens can then be used to verify the authenticity of the certificate and prevent any attempts to copy or forge it."
+            description="Universities can issue digital certificates to their students that are tied to Soulbound tokens. These tokens can then be used to verify the authenticity of the certificate and prevent any attempts to copy or forge it."
             title="Certification"
             icon="/icons/cert.png"
           />
           <CaseTile
-            description="Professional licenses, such as those obtained by doctors, lawyers, and accountants, can also be secured using Soul Bound tokens on blockchain that can be verified as authentic and cannot be transferred or sold to other individuals."
+            description="Professional licenses, such as those obtained by doctors, lawyers, and accountants, can also be secured using Soulbound tokens on blockchain that can be verified as authentic and cannot be transferred or sold to other individuals."
             title="Licenses"
             icon="/icons/license.png"
           />
           <CaseTile
-            description="Organizations like a sport organization that hand out awards to their athletes can use the authenticity of a Soul Bound token to provide a secure and tamper-proof system for recognizing and rewarding achievements."
+            description="Organizations like a sport organization that hand out awards to their athletes can use the authenticity of a Soulbound token to provide a secure and tamper-proof system for recognizing and rewarding achievements."
             title="Awards"
             icon="/icons/awards.png"
           />
