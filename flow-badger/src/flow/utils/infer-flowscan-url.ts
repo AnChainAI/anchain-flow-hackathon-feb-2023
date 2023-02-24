@@ -3,7 +3,7 @@ import { inferFlowNetwork } from './infer-flow-network'
 
 export function inferFlowscanURL() {
   return {
-    [FlowNetwork.TESTNET]: 'https://testnet.flowscan.org/transaction/',
-    [FlowNetwork.MAINNET]: 'https://flowscan.org/transaction/'
+    [FlowNetwork.TESTNET]: 'https://testnet.flowscan.org/',
+    [FlowNetwork.MAINNET]: 'https://flowscan.org/'
   }[inferFlowNetwork()]
 }

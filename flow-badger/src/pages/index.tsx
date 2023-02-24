@@ -1,6 +1,5 @@
+import { flowConfig, inferFlowscanURL } from 'flow'
 import { CaseTile } from 'components'
-import { flowConfig } from 'flow'
-import { inferFlowNetwork } from 'flow/utils/infer-flow-network'
 import { PageLayout } from 'layouts'
 
 export default function Home() {
@@ -74,7 +73,7 @@ export default function Home() {
             className="mx-1 underline hover:cursor-pointer hover:brightness-75"
             onClick={() => {
               window.open(
-                `${inferFlowNetwork()}/account/${
+                `${inferFlowscanURL()}/account/${
                   flowConfig['0xAnChainSoulboundNFT']
                 }`,
                 '_blank'
@@ -89,7 +88,7 @@ export default function Home() {
             className="ml-1 underline hover:cursor-pointer hover:brightness-75"
             onClick={() => {
               window.open(
-                `${inferFlowNetwork()}/account/${
+                `${inferFlowscanURL()}/account/${
                   flowConfig['0xSoulboundClaimer']
                 }`,
                 '_blank'
